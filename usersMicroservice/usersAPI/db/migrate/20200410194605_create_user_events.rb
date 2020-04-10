@@ -8,5 +8,6 @@ class CreateUserEvents < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    execute "ALTER TABLE user_events ADD PRIMARY KEY (user_id, event_id);"
   end
 end

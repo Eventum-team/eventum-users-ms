@@ -7,5 +7,6 @@ class CreateUserGroups < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    execute "ALTER TABLE user_groups ADD PRIMARY KEY (user_id, group_id);"
   end
 end
