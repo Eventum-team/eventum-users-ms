@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       render json: @user, status: :created
     else
       render json: { errors: @user.errors.full_messages},
-             status: :unprocessable_entity
+             status: :bad_request
     end
   end
 
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     find_user
     unless @user.update(user_params)
       render json: { errors: @user.errors.full_messages },
-             status: :unprocessable_entity
+             status: :not_acceptable
     else
       render json: @user, status: :accepted
     end
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   def destroy
     find_user
     if @user != nil
-      render :text => "user " + @user.name.to_s + " successfully deleted", status: :accepted
+      render :text => "user " + @user.name.to_s + " successfully deleted", status: :no_content
       @user.destroy
     end
   end

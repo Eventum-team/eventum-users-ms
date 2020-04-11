@@ -21,7 +21,7 @@ class UserGroupsController < ApplicationController
       render json: @userGroup, status: :created
     else
       render json: { errors: @userGroup.errors.full_messages},
-             status: :unprocessable_entity
+             status: :bad_request
     end
   end
 
@@ -30,7 +30,7 @@ class UserGroupsController < ApplicationController
     find_user_group
     unless @userGroup.update(user_group_update_params)
       render json: { errors: @userGroup.errors.full_messages },
-             status: :unprocessable_entity
+             status: :not_acceptable
     else
       render json: @userGroup, status: :accepted
     end
@@ -40,7 +40,7 @@ class UserGroupsController < ApplicationController
   def destroy
     find_user_group
     if @userGroup != nil
-      render :text => "user " + @userGroup.user_id.to_s + "not related to the" + @userGroup.group_id.to_s + " group anymore", status: :accepted
+      render :text => "user " + @userGroup.user_id.to_s + "not related to the" + @userGroup.group_id.to_s + " group anymore", status: :no_content
       @userGroup.destroy
     end
   end

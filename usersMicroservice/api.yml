@@ -1,0 +1,547 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Microservice for user related queries and operations
+  description: Ruby + PostgresQL
+  license:
+    name: Software Architecture, 2020-I
+host: host:3000
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /users:
+    post:
+      summary: Creates a new user
+      operationId: createUser
+      parameters:
+        - name: user
+          in: body
+          required: true
+          description: User Object
+          schema:
+            $ref: '#/definitions/user_params'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    get:
+      summary: Returns all users ordered by last updated date
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/UsersList'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /users/{id}:
+    get:
+      summary: Returns an user with the given id
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user to be returned
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    put:
+      summary: Updates an user with the given id
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user to be updated
+          required: true
+          type: integer
+        - name: user
+          in: body
+          required: true
+          description: User Object
+          schema:
+            $ref: '#/definitions/user_params'
+      responses:
+        '202':
+          description: Accepted
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    delete:
+      summary: Deletes an user with the given id
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user to be deleted
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /user_groups:
+    post:
+      summary: Creates a new user relation to  group
+      operationId: createUserGroup
+      parameters:
+        - name: user_group
+          in: body
+          required: true
+          description: UserGroup Object
+          schema:
+            $ref: '#/definitions/user_group_params'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/UserGroup'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    get:
+      summary: Returns all associations beteewn users and groups
+      operationId: getAllUserGroups
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/UserGroupsList'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /user_groups/{user_id}/{group_id}:
+    get:
+      summary: Returns an user association with a group with the given user id and group id
+      operationId: getUserGroupByIds
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of the user to be associated
+          required: true
+          type: integer
+        - name: group_id
+          in: path
+          description: The id of the group to be associated
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/UserGroup'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    put:
+      summary: Updates an user association with a group with the given user id and group id
+      operationId: updateUserGroup
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of the user to be associated
+          required: true
+          type: integer
+        - name: group_id
+          in: path
+          description: The id of the group to be associated
+          required: true
+          type: integer
+        - name: user
+          in: body
+          required: true
+          description: User Object
+          schema:
+            $ref: '#/definitions/user_group_params'
+      responses:
+        '202':
+          description: Accepted
+          schema:
+            $ref: '#/definitions/UserGroup'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    delete:
+      summary: Deletes an user association with a group with the given user id and group id
+      operationId: deleteUserGroup
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of the user to be associated
+          required: true
+          type: integer
+        - name: group_id
+          in: path
+          description: The id of the group to be associated
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+            
+  /user_events:
+    post:
+      summary: Creates a new user relation to an event
+      operationId: createUserEvent
+      parameters:
+        - name: user_event
+          in: body
+          required: true
+          description: UserGroup Object
+          schema:
+            $ref: '#/definitions/user_event_params'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/UserEvent'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    get:
+      summary: Returns all associations beteewn users and events
+      operationId: getAllUserEvents
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/UserEventsList'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /user_events/{user_id}/{event_id}:
+    get:
+      summary: Returns an user association with an event with the given user id and event id
+      operationId: getUserEventByIds
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of the user to be associated
+          required: true
+          type: integer
+        - name: event_id
+          in: path
+          description: The id of the event to be associated
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/UserEvent'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    put:
+      summary: Updates an user association with an event with the given user id and event id
+      operationId: updateUserEvent
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of the user to be associated
+          required: true
+          type: integer
+        - name: event_id
+          in: path
+          description: The id of the event to be associated
+          required: true
+          type: integer
+        - name: user
+          in: body
+          required: true
+          description: User Object
+          schema:
+            $ref: '#/definitions/user_event_params'
+      responses:
+        '202':
+          description: Accepted
+          schema:
+            $ref: '#/definitions/UserEvent'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    delete:
+      summary: Deletes an user association with an event with the given user id and event id
+      operationId: deleteUserEvent
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of the user to be associated
+          required: true
+          type: integer
+        - name: event_id
+          in: path
+          description: The id of the event to be associated
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+
+definitions:
+
+  # Users
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      phone_number:
+        type: string
+      age:
+        type: integer
+      career:
+        type: string
+      status:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+
+  user_params:
+    type: object
+    properties:
+      name:
+        type: string
+      phone_number:
+        type: string
+      age:
+        type: integer
+      career:
+        type: string
+      status:
+        type: string
+
+  UsersList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/User'
+          
+  # User Groups
+  UserGroup:
+    type: object
+    properties:
+      user_id:
+        type: integer
+      group_id:
+        type: integer
+      status:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+
+  user_group_params:
+    type: object
+    properties:
+      user_id:
+        type: integer
+      group_id:
+        type: integer
+      status:
+        type: string
+
+  UserGroupsList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/UserGroup'
+  # User Events
+  UserEvent:
+    type: object
+    properties:
+      user_id:
+        type: integer
+      event_id:
+        type: integer
+      assistance:
+        type: boolean
+      interested:
+        type: boolean
+      created_at:
+        type: string
+      updated_at:
+        type: string
+
+  user_event_params:
+    type: object
+    properties:
+      user_id:
+        type: integer
+      event_id:
+        type: integer
+      assistance:
+        type: boolean
+      interested:
+        type: boolean
+
+  UserEventsList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/UserEvent'
+
+# Errors
+  ErrorModel:
+    type: object
+    required:
+      - errors
+      - code
+    properties:
+      errors:
+        type: array
+        items:
+          type: string
+      code:
+        type: number

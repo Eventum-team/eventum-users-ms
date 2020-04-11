@@ -21,7 +21,7 @@ class UserEventsController < ApplicationController
       render json: @userEvent, status: :created
     else
       render json: { errors: @userEvent.errors.full_messages},
-             status: :unprocessable_entity
+             status: :bad_request
     end
   end
 
@@ -30,7 +30,7 @@ class UserEventsController < ApplicationController
     find_user_event
     unless @userEvent.update(user_event_update_params)
       render json: { errors: @userEvent.errors.full_messages },
-             status: :unprocessable_entity
+             status: :not_acceptable
     else
       render json: @userEvent, status: :accepted
     end
@@ -40,7 +40,7 @@ class UserEventsController < ApplicationController
   def destroy
     find_user_event
     if @userEvent != nil
-      render text: "user " + @userEvent.user_id.to_s + "not related to the" + @userEvent.event_id.to_s + " event anymore", status: :accepted
+      render text: "user " + @userEvent.user_id.to_s + "not related to the" + @userEvent.event_id.to_s + " event anymore", status: :no_content
       @userEvent.destroy
     end
   end
