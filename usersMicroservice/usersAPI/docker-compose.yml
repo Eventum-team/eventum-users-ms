@@ -5,13 +5,13 @@ volumes:
     external: false
 
 services:
-  db:
+  eventum_module_db:
     image: postgres
     env_file: .env
     volumes:
       - db-data:/var/lib/postgresql/db-data
 
-  app:
+  event_module_ms:
     build: .
     env_file: .env
     volumes:
