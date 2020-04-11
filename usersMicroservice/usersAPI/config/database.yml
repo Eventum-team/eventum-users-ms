@@ -22,12 +22,12 @@ default: &default
   pool: 5
   timeout: 5000
   username: postgres
-  password: usersapi
+  password: y5ib56c23
   host: localhost
 
 development:
   <<: *default
-  database: alpha_database
+  database: usersapi
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -61,7 +61,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: alpha_database
+  database: usersapi
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -84,4 +84,4 @@ test:
 #
 production:
   <<: *default
-  database: alpha_database
+  database: usersapi
