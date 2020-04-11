@@ -7,7 +7,7 @@ info:
   description: Ruby + PostgresQL
   license:
     name: Software Architecture, 2020-I
-host: host:3000
+host: localhost:3000
 basePath: /
 schemes:
   - http
@@ -471,10 +471,6 @@ definitions:
   user_group_params:
     type: object
     properties:
-      user_id:
-        type: integer
-      group_id:
-        type: integer
       status:
         type: string
 
@@ -510,10 +506,6 @@ definitions:
   user_event_params:
     type: object
     properties:
-      user_id:
-        type: integer
-      event_id:
-        type: integer
       assistance:
         type: boolean
       interested:
