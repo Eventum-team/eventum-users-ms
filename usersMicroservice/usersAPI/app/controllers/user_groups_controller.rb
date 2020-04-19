@@ -14,6 +14,22 @@ class UserGroupsController < ApplicationController
 
   end
 
+  # GET /user_groups{group_id}
+  def showUsers
+    targetGroups = User.joins(:user_groups).where(user_groups:{group_id: params[:group_id]})
+    if targetGroups != nil
+      render json: targetGroups, status: :ok
+    end
+  end
+
+  # GET /admin_groups{group_id}
+  def showAdmins
+    targetGroups = User.joins(:user_groups).where(user_groups: {group_id: params[:group_id], status: "admin"})
+    if targetGroups != nil
+      render json: targetGroups, status: :ok
+    end
+  end
+
   # POST /user_groups
   def create
     @userGroup = UserGroup.new(user_group_params)

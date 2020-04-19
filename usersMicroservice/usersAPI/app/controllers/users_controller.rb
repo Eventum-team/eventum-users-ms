@@ -5,13 +5,28 @@ class UsersController < ApplicationController
     render json: @users, status: :ok
   end
 
+  # GET /groups_by_user/{id}
+  def showGroups
+    find_user
+    if @user != nil
+      render json: @user.user_groups.select(:group_id), status: :ok
+    end
+  end
+
+  # GET /events_by_user/{id}
+  def showEvents
+    find_user
+    if @user != nil
+      render json: @user.user_events.select(:event_id), status: :ok
+    end
+  end
+
   # GET /users/{id}
   def show
     find_user
     if @user != nil
       render json: @user, status: :ok
     end
-
   end
 
   # POST /users

@@ -11,7 +11,22 @@ class UserEventsController < ApplicationController
     if @userEvent != nil
       render json: @userEvent, status: :ok
     end
+  end
 
+  # GET /assistant_events/{group_id}
+  def showAssistants
+    targetEvents = User.joins(:user_events).where(user_events: {event_id: params[:event_id], assistance: true})
+    if targetEvents != nil
+      render json: targetEvents, status: :ok
+    end
+  end
+
+  # GET /interested_events/{group_id}
+  def showInterested
+    targetEvents = User.joins(:user_events).where(user_events: {event_id: params[:event_id], interested: true})
+    if targetEvents != nil
+      render json: targetEvents, status: :ok
+    end
   end
 
   # POST /user_events

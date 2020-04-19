@@ -15,9 +15,9 @@ ActiveRecord::Schema.define(version: 2020_04_10_195300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "user_events", id: false, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "event_id"
+  create_table "user_events", primary_key: ["user_id", "event_id"], force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
     t.boolean "assistance", default: false
     t.boolean "interested", default: true
     t.datetime "created_at", precision: 6, null: false
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_195300) do
     t.string "name"
     t.string "phone_number"
     t.integer "age"
-    t.integer "career"
+    t.string "career"
     t.string "status"
     t.boolean "web_notification_status", default: false
     t.boolean "mobile_notification_status", default: false
