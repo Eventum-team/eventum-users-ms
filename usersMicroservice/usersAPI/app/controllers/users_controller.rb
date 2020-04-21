@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      render json: @user, status: :created
+      render json: "created user with name " + @user.name + " and cellphone " + @user.phone_number, status: :created
     else
       render json: { errors: @user.errors.full_messages},
              status: :bad_request
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
       render json: { errors: @user.errors.full_messages },
              status: :not_acceptable
     else
-      render json: @user, status: :accepted
+      render json: "user named " + @user.name + " updated succesfully", status: :accepted
     end
   end
 
