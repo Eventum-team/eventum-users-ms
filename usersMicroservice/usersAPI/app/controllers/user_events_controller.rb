@@ -33,7 +33,7 @@ class UserEventsController < ApplicationController
   def create
     @userEvent = UserEvent.new(user_event_params)
     if @userEvent.save
-      render json: @userEvent, status: :created
+      render json: "added a new user event", status: :created
     else
       render json: { errors: @userEvent.errors.full_messages},
              status: :bad_request
@@ -47,7 +47,7 @@ class UserEventsController < ApplicationController
       render json: { errors: @userEvent.errors.full_messages },
              status: :not_acceptable
     else
-      render json: @userEvent, status: :accepted
+      render json: "updated an user event", status: :accepted
     end
   end
 
