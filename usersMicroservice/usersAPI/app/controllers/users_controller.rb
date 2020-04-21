@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      render json: "created user with name " + @user.name + " and cellphone " + @user.phone_number, status: :created
+      render json: "created user with id " + @user.id.to_s, status: :created
     else
       render json: { errors: @user.errors.full_messages},
              status: :bad_request
