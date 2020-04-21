@@ -48,7 +48,7 @@ class UserGroupsController < ApplicationController
       render json: { errors: @userGroup.errors.full_messages },
              status: :not_acceptable
     else
-      render json: "updated an user group to " + @userGroup + " type", status: :accepted
+      render json: "updated an user group to " + @userGroup.status + " type", status: :accepted
     end
   end
 
