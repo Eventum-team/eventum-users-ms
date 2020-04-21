@@ -34,7 +34,7 @@ class UserGroupsController < ApplicationController
   def create
     @userGroup = UserGroup.new(user_group_params)
     if @userGroup.save
-      render json: @userGroup, status: :created
+      render json: "created a new user group of " + @userGroup.status+ " type", status: :created
     else
       render json: { errors: @userGroup.errors.full_messages},
              status: :bad_request
@@ -48,7 +48,7 @@ class UserGroupsController < ApplicationController
       render json: { errors: @userGroup.errors.full_messages },
              status: :not_acceptable
     else
-      render json: @userGroup, status: :accepted
+      render json: "updated an user group to " + @userGroup + " type", status: :accepted
     end
   end
 
