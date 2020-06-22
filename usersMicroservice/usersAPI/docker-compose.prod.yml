@@ -7,18 +7,15 @@ volumes:
 services:
   db:
     image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123456ev
+    env_file: .env
     volumes:
       - db-data:/var/lib/postgresql/db-data
 
   app:
     build: .
     command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    env_file: .env
     environment:
-      POSTGRES_HOST: db
-      SECRET_KEY_BASE: f16b4d832a8059e159724c07150e3142805580ab2a23bb88a2745d244a74f64ed9ab2759c8498ec7c5206d0efaf142171282f64861459623d6e8787cf727e4da
       RAILS_ENV: production
     ports:
       - "3000:3000"
